@@ -8,7 +8,7 @@
         width: 10vh;
       }
       a:visited {
-        color: rgb(214, 185, 185);
+        color: black;
         text-decoration: none;
       }
       a:hover {
@@ -47,6 +47,14 @@
       #imgset {
         display: inline-block;
       }
+      #calender-layout {
+        text-align: center;
+      }
+      #calender {
+        display: inline-block;
+        border: 1px solid black;
+        width: 100px;
+      }
     </style>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -72,57 +80,57 @@
             );
           }
         });
-        $(function () {
-          $(".btn_menu").click(function () {
-            $("#section").empty();
-            $("#title").empty();
+        $(".btn_menu").click(function () {
+          $("#section").empty();
+          $("#title").empty();
 
-            var menu = $(this).attr("value");
-            $("#title").append("<h1>my " + menu + "</h1>");
-            switch (menu) {
-              case "home":
-                $("#section").append(
-                  "<img align = 'left' style='border: 3px solid #fdc324; border-radius: 7px' src='../image/me.jpg'/>",
-                  "<h1>이 웹사이트는 김지훈의 개인 프로젝트로 인해 만들어졌습니다.</h1>"
-                );
-                break;
-              case "imformation":
-                $("#section").append(
-                  "<h1>기본 정보</h1>",
-                  "<h1>이름: 김지훈</h1>",
-                  "<h1>생년월일: 1998/02/24</h1>",
-                  "<h1>성별: 남자</h1>",
-                  "<h1>학력: 명지대학교 졸업</h1>",
-                  "<h1>전공: 컴퓨터 공학과</h1>",
-                  "<h1>연락처</h1>",
-                  "<h1>Email: ben224@naver.com</h1>",
-                  "<h1>전화번호: 010 7654 6434</h1>",
-                  "<h1>인스타그램: <a href = 'https://www.instagram.com/j_h_kimm/'>j_h_kimm</a></h1>",
-                  "<h1>전공 관련 계정</h1>",
-                  "<h1>Gitgub: <a href = 'https://github.com/gnjs224/'>gnjs224</a></h1>",
-                  "<h1>백준: <a href = 'https://www.acmicpc.net/user/ben224'>ben224</a></h1>",
-                  "<h1>벨로그: <a href = 'https://velog.io/@gnjs224'>gnjs224</a></h1>"
-                );
-                break;
-              case "record":
-                $("#section").append("<h1>hi</h1>");
-                break;
-              case "project":
-                $("#section").append("<h1>hi</h1>");
-                break;
-              case "goal":
-                $("#section").append("<h1>hi</h1>");
-                break;
+          var menu = $(this).attr("value");
+          $("#title").append("<h1>my " + menu + "</h1>");
+          switch (menu) {
+            case "home":
+              $("#section").append(
+                "<img align = 'left' style='border: 3px solid #fdc324; border-radius: 7px' src='../image/me.jpg'/>",
+                "<h1>이 웹사이트는 김지훈의 개인 프로젝트로 인해 제작되었습니다.</h1>"
+              );
+              break;
+            case "imformation":
+              $("#section").append(
+                "<h1>기본 정보</h1>",
+                "<h1>이름: 김지훈</h1>",
+                "<h1>생년월일: 1998/02/24</h1>",
+                "<h1>성별: 남자</h1>",
+                "<h1>학력: 명지대학교 졸업</h1>",
+                "<h1>전공: 컴퓨터 공학과</h1>",
+                "<h1>연락처</h1>",
+                "<h1>Email: ben224@naver.com</h1>",
+                "<h1>전화번호: 010 7654 6434</h1>",
+                "<h1>인스타그램: <a href = 'https://www.instagram.com/j_h_kimm/'>j_h_kimm</a></h1>",
+                "<h1>전공 관련 계정</h1>",
+                "<h1>Gitgub: <a href = 'https://github.com/gnjs224/'>gnjs224</a></h1>",
+                "<h1>백준: <a href = 'https://www.acmicpc.net/user/ben224'>ben224</a></h1>",
+                "<h1>벨로그: <a href = 'https://velog.io/@gnjs224'>gnjs224</a></h1>"
+              );
+              break;
+            case "record":
+              $("#section").append("<h1>hi</h1>");
+              break;
+            case "project":
+              $("#section").append("<h1>hi</h1>");
+              break;
+            case "goal":
+              $("#section").append("<h1>이 웹사이트 만들어서 배포하기</h1>");
+              break;
 
-              case "plan":
-                $("#section").append("<h1>hi</h1>");
-                break;
+            case "plan":
+              $("#section").append("<h1>hi</h1>");
+              break;
 
-              case "diary":
-                $("#section").append("<h1>hi</h1>");
-                break;
-            }
-          });
+            case "diary":
+              $("#section").append(
+                "<div id = 'calender-layout'><div id = 'calender'>asd</div></div>"
+              );
+              break;
+          }
         });
       });
     </script>
@@ -134,6 +142,7 @@
           .css("height", "25px")
           .css("line-height", "25px")
           .css("border-radius", "15px");
+        $("#calender").css("border", "1px solid black");
       });
     </script>
   </head>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #calender-layout {
+        text-align: center;
+      }
+      #calender {
+        display: inline-block;
+        border: 1px solid black;
+        width: 600px;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid black;
+      }
+      td {
+        cursor: pointer;
+      }
+      table {
+        width: 60%;
+        margin: auto;
+      }
+      .normal {
+        color: black;
+      }
+      .after {
+        color: gray;
+      }
+      .before {
+        color: gray;
+      }
+    </style>
+    <script src="http://code.jquery.com/jquery-3.1.1.js"></script>
+    <script>
+      // 2021년 1월 1일은 금요일
+      $(function () {
+        const dateLimit = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        var count = 0;
+        var today = new Date();
+        const year = 2021;
+        var month = today.getMonth() + 1;
+        var date = today.getDate();
+        var selected;
+        var value = { year: year, month: month, date: date };
+        var draw = function () {
+          $("#calender-header").empty();
+          $("#calender-header").append(
+            "<button class='before'>a</button> " +
+              year +
+              "." +
+              month +
+              " <button class='after'>b</button>"
+          );
+          $("#calender-date").empty();
+          $("#calender-date").append(
+            "<tr><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th><th>일</th></tr>"
+          );
+
+          var blank = 4;
+          for (var i = 0; i < month - 1; i++) {
+            blank += dateLimit[i] % 7;
+          }
+          blank %= 7;
+          count = 0;
+          var over = false;
+          var part;
+          for (var i = 1 - blank; ; i++) {
+            var temp = i;
+            part = "normal";
+            if (temp <= 0) {
+              temp += dateLimit[month - 2];
+              if (isNaN(temp)) {
+                temp = "X";
+              }
+              part = "before";
+            } else if (temp > dateLimit[month - 1]) {
+              temp -= dateLimit[month - 1];
+              part = "after";
+            } else if (temp == dateLimit[month - 1]) {
+              over = true;
+            }
+            if (count == 0) {
+              $("#calender-date").append("<tr>");
+            }
+            count++;
+            $("#calender-date").append(
+              "<td class = " + part + ">" + temp + "</td>"
+            );
+            if (count == 7) {
+              $("#calender-date").append("</tr>");
+              if (over) break;
+              count = 0;
+            }
+          }
+          $(".before").click(function () {
+            month--;
+            if (month == 0) month += 12;
+            draw();
+          });
+          $(".after").click(function () {
+            month++;
+            if (month == 13) month -= 12;
+            draw();
+          });
+        };
+        draw();
+        $("td").click(function () {});
+      });
+    </script>
+  </head>
+  <body>
+    <div id="calender-layout">
+      <div id="calender">
+        <div id="calender-header"></div>
+        <table id="calender-date"></table>
+        <a id="btn_add">추가</a>
+      </div>
+    </div>
+  </body>
+</html>
