@@ -17,7 +17,7 @@
       table,
       th,
       td {
-        border: 1px solid black;
+        border: 1px solid white;
       }
       td,
       #btn_add {
@@ -36,6 +36,10 @@
       .before {
         color: gray;
       }
+      .selected {
+        color: red;
+        border: 1px solid red;
+      }
     </style>
     <script src="http://code.jquery.com/jquery-3.1.1.js"></script>
     <script>
@@ -47,7 +51,7 @@
         const year = 2021;
         var month = today.getMonth() + 1;
         var date = today.getDate();
-        var selected;
+        // var selected;
         //  var value = { year: year, month: month, date: date };
         $("#new_date").append(year + " " + month + " " + date);
         var DrawCalender = function () {
@@ -92,12 +96,27 @@
               over = true;
             }
 
+            var selected;
+            if (temp == date && part == "normal") {
+              selected = "selected";
+            } else {
+              selected = "";
+            }
+
             if (count == 0) {
               $("#calender-date").append("<tr>");
             }
             count++;
             $("#calender-date").append(
-              "<td class = " + part + " value = " + temp + ">" + temp + "</td>"
+              "<td class =" +
+                selected +
+                " " +
+                part +
+                " value = " +
+                temp +
+                ">" +
+                temp +
+                "</td>"
             );
             if (count == 7) {
               $("#calender-date").append("</tr>");
@@ -105,6 +124,7 @@
               count = 0;
             }
           }
+
           $("td, .before, .after").click(function () {
             if ($(this).attr("class") == "before") {
               month--;
