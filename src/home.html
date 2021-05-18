@@ -64,6 +64,13 @@
 
     <script>
       $(function () {
+        var DrawHome = function () {
+          $("#section").append(
+            "<img align = 'left' style='border: 3px solid #fdc324; border-radius: 7px' src='../image/me.jpg'/>",
+            "<h1>이 웹사이트는 김지훈의 개인 프로젝트로 인해 제작되었습니다.</h1>"
+          );
+        };
+        DrawHome();
         var lists = [
           "home",
           "imformation",
@@ -88,10 +95,7 @@
           $("#title").append("<h1>my " + menu + "</h1>");
           switch (menu) {
             case "home":
-              $("#section").append(
-                "<img align = 'left' style='border: 3px solid #fdc324; border-radius: 7px' src='../image/me.jpg'/>",
-                "<h1>이 웹사이트는 김지훈의 개인 프로젝트로 인해 제작되었습니다.</h1>"
-              );
+              DrawHome();
               break;
             case "imformation":
               $("#section").append(
@@ -155,14 +159,7 @@
       <div id="btn_group"></div>
     </div>
     <div id="title"><h1>my home</h1></div>
-    <div id="section">
-      <img
-        align="left"
-        style="border: 3px solid #fdc324; border-radius: 7px"
-        src="../image/me.jpg"
-      />
-      <h1>간단자기소개:</h1>
-    </div>
+    <div id="section"></div>
     <div id="footer">bottom</div>
   </body>
 </html>
