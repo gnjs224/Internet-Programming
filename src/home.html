@@ -53,7 +53,33 @@
       #calender {
         display: inline-block;
         border: 1px solid black;
-        width: 100px;
+        width: 600px;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid white;
+      }
+      td,
+      #btn_add {
+        cursor: pointer;
+      }
+      table {
+        width: 60%;
+        margin: auto;
+      }
+      .normal {
+        color: black;
+      }
+      .after {
+        color: gray;
+      }
+      .before {
+        color: gray;
+      }
+      .selected {
+        color: red;
+        border: 1px solid red;
       }
     </style>
     <meta charset="UTF-8" />
@@ -66,7 +92,7 @@
       $(function () {
         var DrawHome = function () {
           $("#section").append(
-            "<img align = 'left' style='border: 3px solid #fdc324; border-radius: 7px' src='../image/me.jpg'/>",
+            "<img align = 'left' style='border: 3px solid #fdc324; border-radius: 7px' src='/me'/>",
             "<h1>이 웹사이트는 김지훈의 개인 프로젝트로 인해 제작되었습니다.</h1>"
           );
         };
@@ -88,17 +114,14 @@
           }
         });
         $(".btn_menu").click(function () {
-          $("#section").empty();
-          $("#title").empty();
-
           var menu = $(this).attr("value");
-          $("#title").append("<h1>my " + menu + "</h1>");
+          $("#title").html("<h1>my " + menu + "</h1>");
           switch (menu) {
             case "home":
               DrawHome();
               break;
             case "imformation":
-              $("#section").append(
+              $("#section").html(
                 "<h1>기본 정보</h1>",
                 "<h1>이름: 김지훈</h1>",
                 "<h1>생년월일: 1998/02/24</h1>",
@@ -116,23 +139,134 @@
               );
               break;
             case "record":
-              $("#section").append("<h1>hi</h1>");
+              $("#section").html("<h1>hi</h1>");
               break;
             case "project":
-              $("#section").append("<h1>hi</h1>");
+              $("#section").html("<h1>hi</h1>");
               break;
             case "goal":
-              $("#section").append("<h1>이 웹사이트 만들어서 배포하기</h1>");
+              $("#section").html("<h1>이 웹사이트 만들어서 배포하기</h1>");
               break;
 
             case "plan":
-              $("#section").append("<h1>hi</h1>");
+              $("#section").html("<h1>hi</h1>");
               break;
 
             case "diary":
-              $("#section").append(
-                "<div id = 'calender-layout'><div id = 'calender'>asd</div></div>"
+              $("#section").html(
+                "<div id='calender-layout'>" +
+                  "<div id='calender'>" +
+                  "<div id='calender-header'></div>" +
+                  " <table id='calender-date'></table>" +
+                  "<div id='new_date'></div>" +
+                  "<a id='btn_add'>추가</a>" +
+                  "<div id='modify'></div>" +
+                  "</div>" +
+                  "</div>"
               );
+              $(function () {
+                const dateLimit = [
+                  31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31,
+                ];
+                var count = 0;
+                var today = new Date();
+                const year = 2021;
+                var month = today.getMonth() + 1;
+                var date = today.getDate();
+                // var selected;
+                //  var value = { year: year, month: month, date: date };
+                $("#new_date").html(year + " " + month + " " + date);
+                var DrawCalender = function () {
+                  $("#calender-header").html(
+                    "<button class='before' value = '" +
+                      date +
+                      "'>a</button> " +
+                      year +
+                      "." +
+                      month +
+                      " <button class='after' value = '" +
+                      date +
+                      "'>b</Wbutton>"
+                  );
+                  $("#calender-date").html(
+                    "<tr><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th><th>일</th></tr>"
+                  );
+
+                  var blank = 4;
+                  for (var i = 0; i < month - 1; i++) {
+                    blank += dateLimit[i] % 7;
+                  }
+                  blank %= 7;
+                  count = 0;
+                  var over = false;
+                  var part;
+                  for (var i = 1 - blank; ; i++) {
+                    var temp = i;
+                    part = "normal";
+                    if (temp <= 0) {
+                      temp += dateLimit[month - 2];
+                      if (isNaN(temp)) {
+                        temp = "X";
+                      }
+                      part = "before";
+                    } else if (temp > dateLimit[month - 1]) {
+                      temp -= dateLimit[month - 1];
+                      part = "after";
+                    } else if (temp == dateLimit[month - 1]) {
+                      over = true;
+                    }
+
+                    var selected;
+                    if (temp == date && part == "normal") {
+                      selected = "selected";
+                    } else {
+                      selected = "";
+                    }
+
+                    if (count == 0) {
+                      $("#calender-date").append("<tr>");
+                    }
+                    count++;
+                    $("#calender-date").append(
+                      "<td class =" +
+                        selected +
+                        " " +
+                        part +
+                        " value = " +
+                        temp +
+                        ">" +
+                        temp +
+                        "</td>"
+                    );
+                    if (count == 7) {
+                      $("#calender-date").append("</tr>");
+                      if (over) break;
+                      count = 0;
+                    }
+                  }
+
+                  $("td, .before, .after").click(function () {
+                    if ($(this).attr("class") == "before") {
+                      month--;
+                      if (month == 0) month += 12;
+                    } else if ($(this).attr("class") == "after") {
+                      month++;
+                      if (month == 13) month -= 12;
+                    }
+                    date = $(this).attr("value");
+                    $("#new_date").html(
+                      year + " " + month + " " + $(this).attr("value")
+                    );
+                    DrawCalender();
+                  });
+                };
+                DrawCalender();
+
+                $("#btn_add").click(function () {
+                  $("#modify").empty();
+                  $("#modify").append("as");
+                });
+              });
               break;
           }
         });
@@ -153,7 +287,7 @@
 
   <body>
     <div id="header">
-      <a><img class="btn_menu" value="home" src="../image/main.png" /></a>
+      <a><img class="btn_menu" value="home" src="/main" /></a>
     </div>
     <div id="nav">
       <div id="btn_group"></div>
