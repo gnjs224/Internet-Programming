@@ -91,7 +91,7 @@
     <script>
       $(function () {
         var DrawHome = function () {
-          $("#section").append(
+          $("#section").html(
             "<img align = 'left' style='border: 3px solid #fdc324; border-radius: 7px' src='/me'/>",
             "<h1>이 웹사이트는 김지훈의 개인 프로젝트로 인해 제작되었습니다.</h1>"
           );
@@ -166,7 +166,7 @@
               );
               $(function () {
                 const dateLimit = [
-                  31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31,
+                  0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31,
                 ];
                 var count = 0;
                 var today = new Date();
@@ -193,7 +193,7 @@
                   );
 
                   var blank = 4;
-                  for (var i = 0; i < month - 1; i++) {
+                  for (var i = 1; i < month; i++) {
                     blank += dateLimit[i] % 7;
                   }
                   blank %= 7;
@@ -204,15 +204,15 @@
                     var temp = i;
                     part = "normal";
                     if (temp <= 0) {
-                      temp += dateLimit[month - 2];
+                      temp += dateLimit[month - 1];
                       if (isNaN(temp)) {
                         temp = "X";
                       }
                       part = "before";
-                    } else if (temp > dateLimit[month - 1]) {
-                      temp -= dateLimit[month - 1];
+                    } else if (temp > dateLimit[month]) {
+                      temp -= dateLimit[month];
                       part = "after";
-                    } else if (temp == dateLimit[month - 1]) {
+                    } else if (temp == dateLimit[month]) {
                       over = true;
                     }
 
@@ -246,6 +246,7 @@
                   }
 
                   $("td, .before, .after").click(function () {
+                    $("#modify").empty();
                     if ($(this).attr("class") == "before") {
                       month--;
                       if (month == 0) month += 12;
@@ -263,13 +264,13 @@
                 DrawCalender();
 
                 $("#btn_add").click(function () {
-                  $("#modify").empty();
-                  $("#modify").append("as");
+                  DrawModifyBox();
                 });
               });
               break;
           }
         });
+        var DrawModifyBox = function () {};
       });
     </script>
     <!-- jquery를 이용한 css -->
