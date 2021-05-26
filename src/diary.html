@@ -40,12 +40,24 @@
         color: red;
         border: 1px solid red;
       }
+      #title {
+        width: 60%;
+      }
+      #content {
+        width: 60%;
+        height: 20vh;
+      }
+      .ban {
+        pointer-events: none;
+        cursor: default;
+        color: gray;
+      }
     </style>
     <script src="http://code.jquery.com/jquery-3.1.1.js"></script>
     <script>
       // 2021년 1월 1일은 금요일
       $(function () {
-        const dateLimit = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        const dateLimit = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
         var count = 0;
         var today = new Date();
         const year = 2021;
@@ -54,7 +66,23 @@
         // var selected;
         //  var value = { year: year, month: month, date: date };
         $("#new_date").append(year + " " + month + " " + date);
+        // var DrawGetBox = function () {
+        //   $("#memo").empty();
+        //   request.get(
+        //     { url: "http://127.0.0.1/52273/diary/" + ChangeIndex(month, date) },
+        //     function (error, res, body) {
+        //       let data = JSON.parse(body);
+        //       if (!error && res.statusCode == 200) {
+        //         for (var i = 0; i < data.length; i++) {
+        //           console.log(data[i]);
+        //         }
+        //       }
+        //     }
+        //   );
+        // };
         var DrawCalender = function () {
+          // DrawGetBox();
+          $("#memo").empty();
           $("#calender-header").empty();
           $("#calender-header").append(
             "<button class='before' value = '" +
@@ -73,7 +101,7 @@
           );
 
           var blank = 4;
-          for (var i = 0; i < month - 1; i++) {
+          for (var i = 1; i < month; i++) {
             blank += dateLimit[i] % 7;
           }
           blank %= 7;
@@ -84,15 +112,22 @@
             var temp = i;
             part = "normal";
             if (temp <= 0) {
-              temp += dateLimit[month - 2];
-              if (isNaN(temp)) {
+              temp += dateLimit[month - 1];
+              if (temp <= 0) {
                 temp = "X";
+                part = "ban";
+              } else {
+                part = "before";
               }
-              part = "before";
-            } else if (temp > dateLimit[month - 1]) {
-              temp -= dateLimit[month - 1];
-              part = "after";
-            } else if (temp == dateLimit[month - 1]) {
+            } else if (temp > dateLimit[month]) {
+              if (month == 12) {
+                temp = "X";
+                part = "ban";
+              } else {
+                temp -= dateLimit[month];
+                part = "after";
+              }
+            } else if (temp == dateLimit[month]) {
               over = true;
             }
 
@@ -124,6 +159,8 @@
               count = 0;
             }
           }
+          var DrawmemoBox = function () {};
+
           var DrawMemo = function () {};
           $("td, .before, .after").click(function () {
             if ($(this).attr("class") == "before") {
@@ -143,10 +180,19 @@
           });
         };
         DrawCalender();
-
+        var ChangeIndex = function (month, date) {
+          var newindex = 0;
+          for (var i = 0; i < month; i++) {
+            newindex += dateLimit[i];
+          }
+          return newindex + date - 1;
+        };
         $("#btn_add").click(function () {
-          $("#modify").empty();
-          $("#modify").append("as");
+          $("#memo").empty();
+          $("#memo").append(
+            "제목: <input id='title' /><br />일정:<input id='content' /><br /><button id='ok'>확인</button><button id='cancel'>취소</button>"
+          );
+          alert(year + " " + month + " " + date);
         });
       });
     </script>
@@ -158,7 +204,6 @@
         <table id="calender-date"></table>
         <div id="new_date"></div>
         <a id="btn_add">일정 추가</a>
-        <div id="modify"></div>
         <div id="memo"></div>
       </div>
     </div>
