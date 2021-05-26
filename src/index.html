@@ -2,10 +2,26 @@
 <html lang="en">
   <head>
     <style>
+      input {
+        border: 2px solid #a4b9c6;
+        border-radius: 10px;
+      }
+      input:focus {
+        outline: none;
+      }
+      button {
+        background-color: white;
+        border: 2px solid #a4b9c6;
+        border-radius: 10px;
+        cursor: pointer;
+      }
       a:link {
         color: red;
         text-decoration: none;
         width: 10vh;
+      }
+      a {
+        cursor: pointer;
       }
       a:visited {
         color: black;
@@ -38,9 +54,7 @@
         display: inline-block;
         width: 120px;
       }
-      .btn_menu {
-        cursor: pointer;
-      }
+
       #section_title {
         text-align: center;
       }
@@ -58,7 +72,8 @@
       table,
       th,
       td {
-        border: 1px solid white;
+        border: 1px solid #eee;
+        background-color: white;
       }
       td,
       #btn_add {
@@ -69,33 +84,33 @@
         margin: auto;
       }
 
-      .normal {
-        color: black;
-      }
-      .after {
-        color: gray;
-      }
-      .before {
-        color: gray;
-      }
-      .have {
-        background-color: blue;
-      }
       .selected {
         color: red;
         border: 1px solid red;
       }
       #title {
-        width: 60%;
+        width: 40%;
       }
       #content {
-        width: 60%;
-        height: 20vh;
+        width: 40%;
       }
       .ban {
         pointer-events: none;
         cursor: default;
         color: gray;
+      }
+      #calender-header {
+        text-align: center;
+      }
+      #btn_cal {
+        width: 10px;
+      }
+
+      #memo {
+        border: 2px solid #a4b9c6;
+        border-radius: 10px;
+        width: 70%;
+        display: inline-block;
       }
     </style>
     <meta charset="UTF-8" />
@@ -130,7 +145,7 @@
         });
         $(".btn_menu").click(function () {
           var menu = $(this).attr("value");
-          $("#title").html("<h1>my " + menu + "</h1>");
+          $("#section_title").html("<h1>my " + menu + "</h1>");
           switch (menu) {
             case "home":
               DrawHome();
@@ -174,7 +189,9 @@
                   "<div id='calender-header'></div>" +
                   " <table id='calender-date'></table>" +
                   "<div id='new_date'></div>" +
-                  "<a id='btn_add'>일정 추가</a>" +
+                  "<button id='btn_add'>일정 추가</button>" +
+                  "</br>" +
+                  "</br>" +
                   "<div id='memo'></div>" +
                   "</div>" +
                   "</div>"
@@ -215,15 +232,15 @@
 
                     for (var i = 0; i < data.length; i++) {
                       $("#memo").append(
-                        "<p>제목: " +
+                        "<div class='memobox'><p style='font-weight:bold; margin:0'>" +
                           data[i].title +
-                          "</p><p>내용: " +
+                          "</p><p style='margin:0'>" +
                           data[i].content +
                           "</p><button class='modify' value=" +
                           i +
                           ">수정</button><button class='delete' value=" +
                           i +
-                          ">삭제</button><br/>"
+                          ">삭제</button><br/></div></br>"
                       );
                     }
                     $(".modify").click(function () {
@@ -264,10 +281,10 @@
                     });
                   }
                   $("#memo").append(
-                    "제목: <input id='title' value='" +
+                    "<input id='title' autocomplete='off' value='" +
                       temptitle +
                       "' /><br/>" +
-                      "일정:<input id='content' value='" +
+                      "<input id='content' autocomplete='off' value='" +
                       tempcontent +
                       "' /><br/>" +
                       "<button id='ok'>확인</button>" +
@@ -290,23 +307,28 @@
                         content: $("#content").val(),
                       },
                     }).done((data) => {
-                      alert(data.message);
-                      DrawGetBox();
+                      if (data.error != null) {
+                        alert(data.error);
+                      } else {
+                        alert(data.message);
+                        DrawGetBox();
+                      }
                     });
                   });
                 };
                 var DrawCalender = function () {
                   DrawGetBox();
+
                   $("#calender-header").html(
-                    "<button class='before' value = '" +
+                    "<button class='before' style='color: #a4b9c6' value = '" +
                       date +
-                      "'>a</button> " +
+                      "'>◀</button> " +
                       year +
                       "." +
                       month +
-                      " <button class='after' value = '" +
+                      " <button class='after' style='color: #a4b9c6' value = '" +
                       date +
-                      "'>b</button>"
+                      "'>▶</button>"
                   );
                   $("#calender-date").html(
                     "<tr><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th><th>일</th></tr>"
@@ -323,7 +345,22 @@
                   for (var i = 1 - blank; ; i++) {
                     var temp = i;
                     var tempmonth = month;
+                    var color;
                     part = "normal";
+
+                    $.ajax({
+                      url:
+                        "http://127.0.0.1:52273/diary/" +
+                        ChangeIndex(tempmonth, temp),
+                      type: "GET",
+                      async: false,
+                    }).done((data) => {
+                      if (!data.error) {
+                        color = "blue";
+                      } else {
+                        color = "black";
+                      }
+                    });
                     if (temp <= 0) {
                       temp += dateLimit[month - 1];
                       if (temp <= 0) {
@@ -333,6 +370,7 @@
                         tempmonth--;
                         part = "before";
                       }
+                      color = "gray";
                     } else if (temp > dateLimit[month]) {
                       if (month == 12) {
                         temp = "X";
@@ -342,31 +380,17 @@
                         tempmonth++;
                         part = "after";
                       }
+                      color = "gray";
                     } else if (temp == dateLimit[month]) {
                       over = true;
                     }
 
-                    var selected;
-                    var have;
                     if (temp == date && part == "normal") {
                       selected = "selected";
+                      color = "red";
                     } else {
                       selected = "";
                     }
-                    $.ajax({
-                      url:
-                        "http://127.0.0.1:52273/diary/" +
-                        ChangeIndex(tempmonth, temp),
-                      type: "GET",
-                      async: false,
-                    }).done((data) => {
-                      if (!data.error) {
-                        have = "have";
-                      } else {
-                        have = "";
-                      }
-                    });
-                    console.log(have);
                     if (count == 0) {
                       $("#calender-date").append("<tr>");
                     }
@@ -376,8 +400,9 @@
                         selected +
                         " " +
                         part +
-                        " " +
-                        have +
+                        " style='color:" +
+                        color +
+                        "' " +
                         " value = " +
                         temp +
                         ">" +
