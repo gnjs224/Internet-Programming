@@ -164,7 +164,7 @@
               "<h1>전공: 컴퓨터 공학과</h1>" +
               "<h1>연락처</h1>" +
               "<h1>Email: ben224@naver.com</h1>" +
-              "<h1>전화번호: 010 7654 6434</h1>" +
+              "<h1>전화번호: 010 7653 6434</h1>" +
               "<h1>인스타그램: <a href = 'https://www.instagram.com/j_h_kimm/'>j_h_kimm</a></h1>" +
               "<h1>전공 관련 계정</h1>" +
               "<h1>Gitgub: <a href = 'https://github.com/gnjs224/'>gnjs224</a></h1>" +
@@ -172,12 +172,18 @@
               "<h1>벨로그: <a href = 'https://velog.io/@gnjs224'>gnjs224</a></h1>"
           );
         };
-        var DrawProject = function () {};
-        var DrawRecord = function () {};
+        var DrawProject = function () {
+          $("#section").html("<h1>project</h1>");
+        };
+        var DrawRecord = function () {
+          $("#section").html("<h1>record</h1>");
+        };
         var DrawGoal = function () {
           $("#section").html("<h1>이 웹사이트 만들어서 배포하기</h1>");
         };
-        var DrawPlan = function () {};
+        var DrawPlan = function () {
+          $("#section").html("<h1>plan</h1>");
+        };
         var DrawDiary = function () {
           $("#section").html(
             "<div id='section-layout'>" +

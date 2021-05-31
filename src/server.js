@@ -52,7 +52,7 @@ diary[139].push({
 diary[142] = new Array();
 diary[142].push({
   title: "Restful",
-  content: "CRUD가 동작하게끔 구현했다",
+  content: "diary에 CRUD가 동작하게끔 구현했다",
 });
 //데이터 조회
 app.get("/diary/:index", function (req, res) {
