@@ -57,7 +57,7 @@ diary[142].push({
 //데이터 조회
 app.get("/diary/:index", function (req, res) {
   var index = Number(req.params.index);
-  if (diary[index] == null) {
+  if (diary[index] == null || diary[index].length == 0) {
     res.send({
       error: "일정이 없습니다.",
     });

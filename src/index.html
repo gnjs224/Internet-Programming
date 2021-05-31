@@ -2,6 +2,10 @@
 <html lang="en">
   <head>
     <style>
+      @import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
+      body {
+        font-family: "Spoqa Han Sans Neo", "sans-serif";
+      }
       input {
         border: 2px solid #a4b9c6;
         border-radius: 10px;
@@ -14,6 +18,7 @@
         border: 2px solid #a4b9c6;
         border-radius: 10px;
         cursor: pointer;
+        font-family: "Spoqa Han Sans Neo", "sans-serif";
       }
       a:link {
         color: red;
@@ -61,12 +66,20 @@
       #imgset {
         display: inline-block;
       }
-      #calender-layout {
+      .btn_menu {
+        cursor: pointer;
+      }
+      #section-layout {
         text-align: center;
+      }
+      #section-box {
+        display: inline-block;
+        width: 800px;
       }
       #calender {
         display: inline-block;
-        border: 1px solid black;
+        border-right: 3px solid white;
+        border-left: 3px solid white;
         width: 600px;
       }
       table,
@@ -112,6 +125,9 @@
         width: 70%;
         display: inline-block;
       }
+      h5 {
+        margin: 0;
+      }
     </style>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -122,10 +138,303 @@
       $(function () {
         var DrawHome = function () {
           $("#section").html(
-            "<img align = 'left' style='border: 3px solid #fdc324; border-radius: 7px' src='/me'/>",
-            "<h1>이 웹사이트는 김지훈의 개인 프로젝트로 인해 제작되었습니다.</h1>"
+            "<div class = section-box>" +
+              "<img align = 'left' style='border-right: 3px solid white;' src='/me'/>" +
+              "<div>" +
+              "<h4>이 웹사이트는 김지훈의 개인 프로젝트로 인해 제작되었습니다.</h4>" +
+              "<h5> imformation메뉴: 기본정보와 연락처 등을 소개합니다.</h5>" +
+              "<h5> record메뉴: </h5>" +
+              "<h5> project메뉴: </h5>" +
+              "<h5> goal메뉴: </h5>" +
+              "<h5> plan메뉴: </h5>" +
+              "<h5> diary메뉴: </h5>" +
+              "</div>" +
+              "<h4> 제 이력을 담은 웹사이트이며,</h4>" +
+              " <h4>주로 개발과 취업 관련된 내용으로 구성해봤습니다.</h4>" +
+              "</div>"
           );
         };
+        var DrawImformaion = function () {
+          $("#section").html(
+            "<h1>기본 정보</h1>" +
+              "<h1>이름: 김지훈</h1>" +
+              "<h1>생년월일: 1998/02/24</h1>" +
+              "<h1>성별: 남자</h1>" +
+              "<h1>학력: 명지대학교 졸업</h1>" +
+              "<h1>전공: 컴퓨터 공학과</h1>" +
+              "<h1>연락처</h1>" +
+              "<h1>Email: ben224@naver.com</h1>" +
+              "<h1>전화번호: 010 7654 6434</h1>" +
+              "<h1>인스타그램: <a href = 'https://www.instagram.com/j_h_kimm/'>j_h_kimm</a></h1>" +
+              "<h1>전공 관련 계정</h1>" +
+              "<h1>Gitgub: <a href = 'https://github.com/gnjs224/'>gnjs224</a></h1>" +
+              "<h1>백준: <a href = 'https://www.acmicpc.net/user/ben224'>ben224</a></h1>" +
+              "<h1>벨로그: <a href = 'https://velog.io/@gnjs224'>gnjs224</a></h1>"
+          );
+        };
+        var DrawProject = function () {};
+        var DrawRecord = function () {};
+        var DrawGoal = function () {
+          $("#section").html("<h1>이 웹사이트 만들어서 배포하기</h1>");
+        };
+        var DrawPlan = function () {};
+        var DrawDiary = function () {
+          $("#section").html(
+            "<div id='section-layout'>" +
+              "<div id='calender'>" +
+              "<div id='calender-header'></div>" +
+              " <table id='calender-date'></table>" +
+              "<div id='new_date'></div>" +
+              "<button id='btn_add'>일정 추가</button>" +
+              "</br>" +
+              "</br>" +
+              "<div id='memo'></div>" +
+              "</div>" +
+              "</div>"
+          );
+          $(function () {
+            const dateLimit = [
+              0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31,
+            ];
+            var count = 0;
+            var today = new Date();
+            const year = 2021;
+            var month = today.getMonth() + 1;
+            var date = today.getDate();
+
+            $("#new_date").html(year + "년 " + month + "월 " + date + "일");
+            var ChangeIndex = function (m, d) {
+              var mon = m;
+              var da = d;
+              if (isNaN(m)) {
+                mon = month;
+                da = date;
+              }
+              var newindex = 0;
+              for (var i = 0; i < mon; i++) {
+                newindex += dateLimit[i];
+              }
+              return newindex + Number(da) - 1;
+            };
+            var DrawGetBox = function () {
+              $.ajax({
+                url: "http://127.0.0.1:52273/diary/" + ChangeIndex(),
+                type: "GET",
+              }).done((data) => {
+                $("#memo").empty();
+                if (data.error != null) {
+                  $("#memo").append("<p>" + data.error + "</p>");
+                }
+
+                for (var i = 0; i < data.length; i++) {
+                  $("#memo").append(
+                    "<div class='memobox'><p style='font-weight:bold; margin:0'>" +
+                      data[i].title +
+                      "</p><p style='margin:0'>" +
+                      data[i].content +
+                      "</p><button class='modify' value=" +
+                      i +
+                      ">수정</button><button class='delete' value=" +
+                      i +
+                      ">삭제</button><br/></div></br>"
+                  );
+                }
+                $(".modify").click(function () {
+                  DrawAddBox(this.value);
+                });
+                $(".delete").click(function () {
+                  if (confirm("정말 삭제하시겠습니까?") == true) {
+                    $.ajax({
+                      url:
+                        "http://127.0.0.1:52273/diary/" +
+                        ChangeIndex() +
+                        "/" +
+                        this.value,
+                      type: "DELETE",
+                    }).done((data) => {
+                      alert(data.message);
+                    });
+                    DrawGetBox();
+                  }
+                });
+              });
+            };
+            var DrawAddBox = function (index) {
+              $("#memo").empty();
+              var temptitle = " ";
+              var tempcontent = " ";
+              if (!isNaN(index)) {
+                $.ajax({
+                  url:
+                    "http://127.0.0.1:52273/diary/" +
+                    ChangeIndex() +
+                    "/" +
+                    index,
+                  async: false,
+                }).done((data) => {
+                  temptitle = data.title;
+                  tempcontent = data.content;
+                });
+              }
+              $("#memo").append(
+                "<input id='title' autocomplete='off' value='" +
+                  temptitle +
+                  "' /><br/>" +
+                  "<input id='content' autocomplete='off' value='" +
+                  tempcontent +
+                  "' /><br/>" +
+                  "<button id='ok'>확인</button>" +
+                  "<button id='cancel'>취소</button>"
+              );
+              $("#cancel").click(function () {
+                DrawGetBox();
+              });
+              $("#ok").click(function () {
+                $.ajax({
+                  url:
+                    "http://127.0.0.1:52273/diary/" +
+                    ChangeIndex() +
+                    "/" +
+                    index,
+                  dataType: "json",
+                  type: "PUT",
+                  data: {
+                    title: $("#title").val(),
+                    content: $("#content").val(),
+                  },
+                }).done((data) => {
+                  if (data.error != null) {
+                    alert(data.error);
+                  } else {
+                    alert(data.message);
+                    DrawGetBox();
+                  }
+                });
+              });
+            };
+            var DrawCalender = function () {
+              DrawGetBox();
+
+              $("#calender-header").html(
+                "<button class='before' style='color: #a4b9c6' value = '" +
+                  date +
+                  "'>◀</button> " +
+                  year +
+                  "." +
+                  month +
+                  " <button class='after' style='color: #a4b9c6' value = '" +
+                  date +
+                  "'>▶</button>"
+              );
+              $("#calender-date").html(
+                "<tr><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th><th>일</th></tr>"
+              );
+
+              var blank = 4;
+              for (var i = 1; i < month; i++) {
+                blank += dateLimit[i] % 7;
+              }
+              blank %= 7;
+              count = 0;
+              var over = false;
+              var part;
+              for (var i = 1 - blank; ; i++) {
+                var temp = i;
+                var tempmonth = month;
+                var color;
+                part = "normal";
+
+                $.ajax({
+                  url:
+                    "http://127.0.0.1:52273/diary/" +
+                    ChangeIndex(tempmonth, temp),
+                  type: "GET",
+                  async: false,
+                }).done((data) => {
+                  if (!data.error) {
+                    color = "blue";
+                  } else {
+                    color = "black";
+                  }
+                });
+                if (temp <= 0) {
+                  temp += dateLimit[month - 1];
+                  if (temp <= 0) {
+                    temp = "X";
+                    part = "ban";
+                  } else {
+                    tempmonth--;
+                    part = "before";
+                  }
+                  color = "gray";
+                } else if (temp > dateLimit[month]) {
+                  if (month == 12) {
+                    temp = "X";
+                    part = "ban";
+                  } else {
+                    temp -= dateLimit[month];
+                    tempmonth++;
+                    part = "after";
+                  }
+                  color = "gray";
+                } else if (temp == dateLimit[month]) {
+                  over = true;
+                }
+
+                if (temp == date && part == "normal") {
+                  selected = "selected";
+                  color = "red";
+                } else {
+                  selected = "";
+                }
+                if (count == 0) {
+                  $("#calender-date").append("<tr>");
+                }
+                count++;
+                $("#calender-date").append(
+                  "<td class =" +
+                    selected +
+                    " " +
+                    part +
+                    " style='color:" +
+                    color +
+                    "' " +
+                    " value = " +
+                    temp +
+                    ">" +
+                    temp +
+                    "</td>"
+                );
+                if (count == 7) {
+                  $("#calender-date").append("</tr>");
+                  if (over) break;
+                  count = 0;
+                }
+              }
+              $("td, .before, .after").click(function () {
+                $("#memo").empty();
+                if ($(this).attr("class") == "before") {
+                  month--;
+                  if (month == 0) month += 12;
+                } else if ($(this).attr("class") == "after") {
+                  month++;
+                  if (month == 13) month -= 12;
+                }
+                date = $(this).attr("value");
+                $("#new_date").html(
+                  year + " " + month + " " + $(this).attr("value")
+                );
+                DrawCalender();
+              });
+            };
+            DrawCalender();
+
+            $("#btn_add").click(function () {
+              DrawAddBox();
+            });
+          });
+        };
+
         DrawHome();
         var lists = [
           "home",
@@ -151,292 +460,22 @@
               DrawHome();
               break;
             case "imformation":
-              $("#section").html(
-                "<h1>기본 정보</h1>",
-                "<h1>이름: 김지훈</h1>",
-                "<h1>생년월일: 1998/02/24</h1>",
-                "<h1>성별: 남자</h1>",
-                "<h1>학력: 명지대학교 졸업</h1>",
-                "<h1>전공: 컴퓨터 공학과</h1>",
-                "<h1>연락처</h1>",
-                "<h1>Email: ben224@naver.com</h1>",
-                "<h1>전화번호: 010 7654 6434</h1>",
-                "<h1>인스타그램: <a href = 'https://www.instagram.com/j_h_kimm/'>j_h_kimm</a></h1>",
-                "<h1>전공 관련 계정</h1>",
-                "<h1>Gitgub: <a href = 'https://github.com/gnjs224/'>gnjs224</a></h1>",
-                "<h1>백준: <a href = 'https://www.acmicpc.net/user/ben224'>ben224</a></h1>",
-                "<h1>벨로그: <a href = 'https://velog.io/@gnjs224'>gnjs224</a></h1>"
-              );
+              DrawImformaion();
               break;
             case "record":
-              $("#section").html("<h1>hi</h1>");
+              DrawRecord();
               break;
             case "project":
-              $("#section").html("<h1>hi</h1>");
+              DrawProject();
               break;
             case "goal":
-              $("#section").html("<h1>이 웹사이트 만들어서 배포하기</h1>");
+              DrawGoal();
               break;
-
             case "plan":
-              $("#section").html("<h1>hi</h1>");
+              DrawPlan();
               break;
-
             case "diary":
-              $("#section").html(
-                "<div id='calender-layout'>" +
-                  "<div id='calender'>" +
-                  "<div id='calender-header'></div>" +
-                  " <table id='calender-date'></table>" +
-                  "<div id='new_date'></div>" +
-                  "<button id='btn_add'>일정 추가</button>" +
-                  "</br>" +
-                  "</br>" +
-                  "<div id='memo'></div>" +
-                  "</div>" +
-                  "</div>"
-              );
-              $(function () {
-                const dateLimit = [
-                  0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31,
-                ];
-                var count = 0;
-                var today = new Date();
-                const year = 2021;
-                var month = today.getMonth() + 1;
-                var date = today.getDate();
-
-                $("#new_date").html(year + " " + month + " " + date);
-                var ChangeIndex = function (m, d) {
-                  var mon = m;
-                  var da = d;
-                  if (isNaN(m)) {
-                    mon = month;
-                    da = date;
-                  }
-                  var newindex = 0;
-                  for (var i = 0; i < mon; i++) {
-                    newindex += dateLimit[i];
-                  }
-                  return newindex + Number(da) - 1;
-                };
-                var DrawGetBox = function () {
-                  $.ajax({
-                    url: "http://127.0.0.1:52273/diary/" + ChangeIndex(),
-                    type: "GET",
-                  }).done((data) => {
-                    $("#memo").empty();
-                    if (data.error != null) {
-                      $("#memo").append("<p>" + data.error + "</p>");
-                    }
-
-                    for (var i = 0; i < data.length; i++) {
-                      $("#memo").append(
-                        "<div class='memobox'><p style='font-weight:bold; margin:0'>" +
-                          data[i].title +
-                          "</p><p style='margin:0'>" +
-                          data[i].content +
-                          "</p><button class='modify' value=" +
-                          i +
-                          ">수정</button><button class='delete' value=" +
-                          i +
-                          ">삭제</button><br/></div></br>"
-                      );
-                    }
-                    $(".modify").click(function () {
-                      DrawAddBox(this.value);
-                    });
-                    $(".delete").click(function () {
-                      if (confirm("정말 삭제하시겠습니까?") == true) {
-                        $.ajax({
-                          url:
-                            "http://127.0.0.1:52273/diary/" +
-                            ChangeIndex() +
-                            "/" +
-                            this.value,
-                          type: "DELETE",
-                        }).done((data) => {
-                          alert(data.message);
-                        });
-                        DrawGetBox();
-                      }
-                    });
-                  });
-                };
-                var DrawAddBox = function (index) {
-                  $("#memo").empty();
-                  var temptitle = " ";
-                  var tempcontent = " ";
-                  if (!isNaN(index)) {
-                    $.ajax({
-                      url:
-                        "http://127.0.0.1:52273/diary/" +
-                        ChangeIndex() +
-                        "/" +
-                        index,
-                      async: false,
-                    }).done((data) => {
-                      temptitle = data.title;
-                      tempcontent = data.content;
-                    });
-                  }
-                  $("#memo").append(
-                    "<input id='title' autocomplete='off' value='" +
-                      temptitle +
-                      "' /><br/>" +
-                      "<input id='content' autocomplete='off' value='" +
-                      tempcontent +
-                      "' /><br/>" +
-                      "<button id='ok'>확인</button>" +
-                      "<button id='cancel'>취소</button>"
-                  );
-                  $("#cancel").click(function () {
-                    DrawGetBox();
-                  });
-                  $("#ok").click(function () {
-                    $.ajax({
-                      url:
-                        "http://127.0.0.1:52273/diary/" +
-                        ChangeIndex() +
-                        "/" +
-                        index,
-                      dataType: "json",
-                      type: "PUT",
-                      data: {
-                        title: $("#title").val(),
-                        content: $("#content").val(),
-                      },
-                    }).done((data) => {
-                      if (data.error != null) {
-                        alert(data.error);
-                      } else {
-                        alert(data.message);
-                        DrawGetBox();
-                      }
-                    });
-                  });
-                };
-                var DrawCalender = function () {
-                  DrawGetBox();
-
-                  $("#calender-header").html(
-                    "<button class='before' style='color: #a4b9c6' value = '" +
-                      date +
-                      "'>◀</button> " +
-                      year +
-                      "." +
-                      month +
-                      " <button class='after' style='color: #a4b9c6' value = '" +
-                      date +
-                      "'>▶</button>"
-                  );
-                  $("#calender-date").html(
-                    "<tr><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th><th>일</th></tr>"
-                  );
-
-                  var blank = 4;
-                  for (var i = 1; i < month; i++) {
-                    blank += dateLimit[i] % 7;
-                  }
-                  blank %= 7;
-                  count = 0;
-                  var over = false;
-                  var part;
-                  for (var i = 1 - blank; ; i++) {
-                    var temp = i;
-                    var tempmonth = month;
-                    var color;
-                    part = "normal";
-
-                    $.ajax({
-                      url:
-                        "http://127.0.0.1:52273/diary/" +
-                        ChangeIndex(tempmonth, temp),
-                      type: "GET",
-                      async: false,
-                    }).done((data) => {
-                      if (!data.error) {
-                        color = "blue";
-                      } else {
-                        color = "black";
-                      }
-                    });
-                    if (temp <= 0) {
-                      temp += dateLimit[month - 1];
-                      if (temp <= 0) {
-                        temp = "X";
-                        part = "ban";
-                      } else {
-                        tempmonth--;
-                        part = "before";
-                      }
-                      color = "gray";
-                    } else if (temp > dateLimit[month]) {
-                      if (month == 12) {
-                        temp = "X";
-                        part = "ban";
-                      } else {
-                        temp -= dateLimit[month];
-                        tempmonth++;
-                        part = "after";
-                      }
-                      color = "gray";
-                    } else if (temp == dateLimit[month]) {
-                      over = true;
-                    }
-
-                    if (temp == date && part == "normal") {
-                      selected = "selected";
-                      color = "red";
-                    } else {
-                      selected = "";
-                    }
-                    if (count == 0) {
-                      $("#calender-date").append("<tr>");
-                    }
-                    count++;
-                    $("#calender-date").append(
-                      "<td class =" +
-                        selected +
-                        " " +
-                        part +
-                        " style='color:" +
-                        color +
-                        "' " +
-                        " value = " +
-                        temp +
-                        ">" +
-                        temp +
-                        "</td>"
-                    );
-                    if (count == 7) {
-                      $("#calender-date").append("</tr>");
-                      if (over) break;
-                      count = 0;
-                    }
-                  }
-                  $("td, .before, .after").click(function () {
-                    $("#memo").empty();
-                    if ($(this).attr("class") == "before") {
-                      month--;
-                      if (month == 0) month += 12;
-                    } else if ($(this).attr("class") == "after") {
-                      month++;
-                      if (month == 13) month -= 12;
-                    }
-                    date = $(this).attr("value");
-                    $("#new_date").html(
-                      year + " " + month + " " + $(this).attr("value")
-                    );
-                    DrawCalender();
-                  });
-                };
-                DrawCalender();
-
-                $("#btn_add").click(function () {
-                  DrawAddBox();
-                });
-              });
+              DrawDiary();
               break;
           }
         });
@@ -457,7 +496,7 @@
 
   <body>
     <div id="header">
-      <a><img class="btn_menu" value="home" src="/main" /></a>
+      <img class="btn_menu" value="home" src="/main" />
     </div>
     <div id="nav">
       <div id="btn_group"></div>
