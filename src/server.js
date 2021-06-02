@@ -16,14 +16,36 @@ app.get("/main", function (req, res) {
   res.sendFile(__dirname + "/main.png");
 });
 
-app.get("/left", function (req, res) {
-  res.sendFile(__dirname + "/left.png");
-});
-app.get("/right", function (req, res) {
-  res.sendFile(__dirname + "/right.png");
-});
-// # 5/26 142
 var diary = new Array(365);
+var imformation = new Array();
+var record = new Array();
+var project = new Array();
+var goal = new Array();
+var plan = new Array();
+imformation[0] = new Array();
+imformation[0].push(
+  "기본정보",
+  { title: "이름", content: "김지훈" },
+  { title: "생년월일", content: "1998/02/24" },
+  { title: "성별", content: "남자" },
+  { title: "최종학력", content: "명지대학교" },
+  { title: "전공", content: "컴퓨터공학과" }
+);
+imformation[1] = new Array();
+imformation[1].push(
+  "연락처",
+  { title: "Email", content: "ben224@naver.com" },
+  { title: "전화번호", content: "010 7653 6434" },
+  { title: "인스타그램", content: "j_h_kimm" }
+);
+imformation[2] = new Array();
+imformation[2].push(
+  "계정",
+  { title: "github", content: "gnjs224" },
+  { title: "백준", content: "ben224" },
+  { title: "벨로그", content: "gnjs224" }
+);
+// # 5/26 142
 diary[131] = new Array();
 diary[131].push({
   title: "주제 정하기",
@@ -54,7 +76,57 @@ diary[142].push({
   title: "Restful",
   content: "diary에 CRUD가 동작하게끔 구현했다",
 });
-//데이터 조회
+//imformation 데이터 조회
+app.get("/imformation/", function (req, res) {
+  if (imformation != null) {
+    res.send(imformation);
+  }
+});
+app.get("/imformation/:index/:id", function (req, res) {});
+
+//imformation 데이터 추가, 수정
+app.put("/imformation/:index/:id", function (req, res) {});
+
+//imformation 데이터 삭제
+app.delete("/imformation/:index/:id", function (req, res) {});
+//record 데이터 조회
+app.get("/record/:index", function (req, res) {});
+app.get("/record/:index/:id", function (req, res) {});
+
+//record 데이터 추가, 수정
+app.put("/record/:index/:id", function (req, res) {});
+
+//record 데이터 삭제
+app.delete("/record/:index/:id", function (req, res) {});
+//project 데이터 조회
+app.get("/project/:index", function (req, res) {});
+app.get("/project/:index/:id", function (req, res) {});
+
+//project 데이터 추가, 수정
+app.put("/project/:index/:id", function (req, res) {});
+
+//project 데이터 삭제
+app.delete("/project/:index/:id", function (req, res) {});
+//goal 데이터 조회
+app.get("/goal/:index", function (req, res) {});
+app.get("/goal/:index/:id", function (req, res) {});
+
+//goal 데이터 추가, 수정
+app.put("/goal/:index/:id", function (req, res) {});
+
+//goal 데이터 삭제
+app.delete("/goal/:index/:id", function (req, res) {});
+//plan 데이터 조회
+app.get("/plan/:index", function (req, res) {});
+app.get("/plan/:index/:id", function (req, res) {});
+
+//plan 데이터 추가, 수정
+app.put("/plan/:index/:id", function (req, res) {});
+
+//plan 데이터 삭제
+app.delete("/plan/:index/:id", function (req, res) {});
+
+//diary데이터 조회
 app.get("/diary/:index", function (req, res) {
   var index = Number(req.params.index);
   if (diary[index] == null || diary[index].length == 0) {
@@ -71,7 +143,7 @@ app.get("/diary/:index/:id", function (req, res) {
   res.send(diary[index][id]);
 });
 
-//데이터 추가, 수정
+//diary데이터 추가, 수정
 app.put("/diary/:index/:id", function (req, res) {
   var index = Number(req.params.index);
   var id = Number(req.params.id);
@@ -96,7 +168,7 @@ app.put("/diary/:index/:id", function (req, res) {
   }
 });
 
-//데이터 삭제
+//diary데이터 삭제
 app.delete("/diary/:index/:id", function (req, res) {
   var index = Number(req.params.index);
   var id = Number(req.params.id);
