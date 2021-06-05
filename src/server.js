@@ -45,7 +45,56 @@ imformation[2].push(
   { title: "백준", content: "ben224" },
   { title: "벨로그", content: "gnjs224" }
 );
-// # 5/26 142
+record[0] = new Array();
+record[0].push("수상");
+record[1] = new Array();
+record[1].push("경력");
+record[2] = new Array();
+record[2].push("자격증 : 취득일자", {
+  title: "운전면허증",
+  content: "2021년 4월 7일",
+});
+record[3] = new Array();
+record[3].push("어학점수", { title: "TEPS", content: "302점" });
+record[4] = new Array();
+record[4].push("학점", "3.9/4.5");
+record[5] = new Array();
+record[5].push(
+  "학력",
+  { title: "고등학교", content: "동안고등학교" },
+  { title: "대학교", content: "명지대학교" }
+);
+project.push(
+  {
+    title: "공공데이터 분석",
+    tag: "데이터 마이닝, 데이터 시각화, 파이썬",
+    content:
+      "공공데이터를 다운받아 파이썬으로 다양한 라이브러리를 사용하여 시각화하고 ~~(예시)",
+    myRole: "팀장으로써 ~~ 팀들과의 ~~ (예시)",
+  },
+  {
+    title: "이력 웹페이지 제작",
+    tag: "javascript, jQuery, html, css",
+    content: "개인프로젝트이고 왜 주제를 이걸로 선택했고 ~~(예시)",
+    myRole: "개인프로젝트 였기때문에 ~~(예시)",
+  }
+);
+goal.push(
+  {
+    title: "이 웹사이트 만들어서 배포하기",
+    content:
+      "이 프로젝트에 데이터베이스를 추가하여 더 다양한 기능을 구현하여 배포하고 싶다.예를 들어 로그인, 회원가입 등의 기능과 각 메뉴의 추가/수정/삭제 기능을 구현할 수 있고 회원은 자신의 내용만 건드릴 수 있으며 기업 쪽은 조회만 가능하게 하는 것이다. ",
+  },
+  {
+    title: "장래 포부",
+    content: "예시",
+  }
+);
+plan.push({
+  title: "자기계발을 꾸준히",
+  content: "예시",
+});
+// # 5/23 142
 diary[131] = new Array();
 diary[131].push({
   title: "주제 정하기",
@@ -76,55 +125,46 @@ diary[142].push({
   title: "Restful",
   content: "diary에 CRUD가 동작하게끔 구현했다",
 });
+diary[155] = new Array();
+diary[155].push({
+  title: "프로젝트 마무리",
+  content: "보기좋게 꾸미기, 내용채우기, 보고서 작성 시작 등 ",
+});
+diary[156] = new Array();
+diary[156].push({
+  title: "과제 마감일",
+  content: "인터넷프로그래밍 중간 프로젝트 마감",
+});
 //imformation 데이터 조회
 app.get("/imformation/", function (req, res) {
   if (imformation != null) {
     res.send(imformation);
   }
 });
-app.get("/imformation/:index/:id", function (req, res) {});
-
-//imformation 데이터 추가, 수정
-app.put("/imformation/:index/:id", function (req, res) {});
-
-//imformation 데이터 삭제
-app.delete("/imformation/:index/:id", function (req, res) {});
+app.get("/imformation/:index/:id", function (req, res) {
+  var index = Number(req.params.index);
+  var id = Number(req.params.id);
+});
 //record 데이터 조회
-app.get("/record/:index", function (req, res) {});
-app.get("/record/:index/:id", function (req, res) {});
-
-//record 데이터 추가, 수정
-app.put("/record/:index/:id", function (req, res) {});
-
-//record 데이터 삭제
-app.delete("/record/:index/:id", function (req, res) {});
+app.get("/record/", function (req, res) {
+  if (record != null) {
+    res.send(record);
+  }
+});
 //project 데이터 조회
-app.get("/project/:index", function (req, res) {});
-app.get("/project/:index/:id", function (req, res) {});
+app.get("/project/", function (req, res) {
+  if (project != null) res.send(project);
+});
 
-//project 데이터 추가, 수정
-app.put("/project/:index/:id", function (req, res) {});
-
-//project 데이터 삭제
-app.delete("/project/:index/:id", function (req, res) {});
 //goal 데이터 조회
-app.get("/goal/:index", function (req, res) {});
-app.get("/goal/:index/:id", function (req, res) {});
+app.get("/goal/", function (req, res) {
+  if (goal != null) res.send(goal);
+});
 
-//goal 데이터 추가, 수정
-app.put("/goal/:index/:id", function (req, res) {});
-
-//goal 데이터 삭제
-app.delete("/goal/:index/:id", function (req, res) {});
 //plan 데이터 조회
-app.get("/plan/:index", function (req, res) {});
-app.get("/plan/:index/:id", function (req, res) {});
-
-//plan 데이터 추가, 수정
-app.put("/plan/:index/:id", function (req, res) {});
-
-//plan 데이터 삭제
-app.delete("/plan/:index/:id", function (req, res) {});
+app.get("/plan/", function (req, res) {
+  if (plan != null) res.send(plan);
+});
 
 //diary데이터 조회
 app.get("/diary/:index", function (req, res) {

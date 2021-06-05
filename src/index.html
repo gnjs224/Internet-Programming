@@ -5,13 +5,7 @@
       @import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
       body {
         font-family: "Spoqa Han Sans Neo", "sans-serif";
-      }
-      input {
-        border: 2px solid #a4b9c6;
-        border-radius: 10px;
-      }
-      input:focus {
-        outline: none;
+        font-size: 20px;
       }
       button {
         background-color: white;
@@ -19,14 +13,36 @@
         border-radius: 10px;
         cursor: pointer;
         font-family: "Spoqa Han Sans Neo", "sans-serif";
+        font-size: 20px;
       }
-      a:link {
-        color: red;
-        text-decoration: none;
-        width: 10vh;
+      input {
+        border: 2px solid #a4b9c6;
+        border-radius: 10px;
+        width: 60%;
+        height: 30px;
+        font-size: 20px;
+        font-family: "Spoqa Han Sans Neo", "sans-serif";
+      }
+      .btn_menu {
+        cursor: pointer;
+      }
+      input {
+        border: 2px solid #a4b9c6;
+        border-radius: 10px;
+        width: 60%;
+        height: 30px;
+        font-size: 20px;
+      }
+      input:focus {
+        outline: none;
+      }
+
+      a:active {
+        color: blue;
       }
       a {
         cursor: pointer;
+        text-decoration: none;
       }
       a:visited {
         color: black;
@@ -34,6 +50,7 @@
       }
       a:hover {
         background: #eee;
+        color: #a4b9c6;
         text-decoration: none;
       }
       #header {
@@ -46,18 +63,27 @@
         text-align: center;
         margin: 0 auto;
       }
+      #nav a {
+        display: inline-block;
+        width: 120px;
+        line-height: 25px;
+        font-size: 20px;
+        padding-top: 5px;
+        padding-bottom: 8px;
+        border-radius: 10px;
+      }
       #section {
         background: #eee;
+        text-align: center;
+        padding-top: 50px;
+        padding-bottom: 50px;
+        min-height: 80vh;
       }
       #footer {
         width: auto;
         text-align: center;
         height: 10vh;
         line-height: 10vh;
-      }
-      #nav a {
-        display: inline-block;
-        width: 120px;
       }
 
       #section_title {
@@ -66,9 +92,7 @@
       #imgset {
         display: inline-block;
       }
-      .btn_menu {
-        cursor: pointer;
-      }
+
       #section-layout {
         text-align: center;
       }
@@ -76,24 +100,33 @@
         display: inline-block;
         width: 800px;
       }
-      #calender {
+      .section_content {
         display: inline-block;
-        border-right: 3px solid white;
-        border-left: 3px solid white;
-        width: 600px;
+        border: 3px solid white;
+        padding-left: 30px;
+        padding-right: 30px;
+        width: 80%;
+        max-width: 1000px;
+      }
+      .homebox {
+        display: inline-block;
+        text-align: left;
       }
       table,
       th,
       td {
         border: 1px solid #eee;
         background-color: white;
+        vertical-align: middle;
+        height: 50px;
       }
-      td,
-      #btn_add {
+      td {
+        font-size: 20px;
         cursor: pointer;
       }
       table {
-        width: 60%;
+        width: 80%;
+        min-width: 300px;
         margin: auto;
       }
 
@@ -101,16 +134,10 @@
         color: red;
         border: 1px solid red;
       }
-      #title {
-        width: 40%;
-      }
-      #content {
-        width: 40%;
-      }
+
       .ban {
         pointer-events: none;
         cursor: default;
-        color: gray;
       }
       #calender-header {
         text-align: center;
@@ -128,6 +155,22 @@
       h5 {
         margin: 0;
       }
+      .title {
+        font-size: 30px;
+        font-weight: 700;
+      }
+      .content {
+        font-size: 20px;
+      }
+      button:hover,
+      td:hover {
+        color: #eee;
+        background: #a4b9c6;
+      }
+      #footer {
+        color: gray;
+        background: #eee;
+      }
     </style>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -138,24 +181,34 @@
       $(function () {
         var DrawHome = function () {
           $("#section").html(
-            "<div class = section-box>" +
-              "<img align = 'left' style='border-right: 3px solid white;' src='/me'/>" +
-              "<div>" +
-              "<h4>이 웹사이트는 김지훈의 개인 프로젝트로 인해 제작되었습니다.</h4>" +
-              "<h5> imformation메뉴: 기본정보와 연락처 등을 소개합니다.</h5>" +
-              "<h5> record메뉴: </h5>" +
-              "<h5> project메뉴: </h5>" +
-              "<h5> goal메뉴: </h5>" +
-              "<h5> plan메뉴: </h5>" +
-              "<h5> diary메뉴: </h5>" +
+            "<div class = section-layout>" +
+              "<div class = 'homebox'>" +
+              "<img id='profile' src='/me'/>" +
+              "</div><div class = 'homebox'>" +
+              "<p class = 'title' id = 'important'>김지훈의 개인 프로젝트로 인해 제작되었습니다.</p>" +
+              "<p class = 'title'>메뉴소개 (일부 내용은 예시입니다.)</p>" +
+              "<p class = 'content'> imformation: 기본정보와 연락처 등을 소개합니다.</p>" +
+              "<p class = 'content'> record: 이력을 소개합니다.</p>" +
+              "<p class = 'content'> project: 경험한 프로젝트를 소개합니다.</p>" +
+              "<p class = 'content'> goal: 목표를 소개합니다.</p>" +
+              "<p class = 'content'> plan: 계획을 소개합니다. </p>" +
+              "<p class = 'content'> diary: 메모와 일정을 소개합니다.</p>" +
               "</div>" +
-              "<h4> 제 이력을 담은 웹사이트이며,</h4>" +
-              " <h4>주로 개발과 취업 관련된 내용으로 구성해봤습니다.</h4>" +
               "</div>"
           );
+          $("#profile")
+            .css("margin-left", "20px")
+            .css("margin-right", "20px")
+            .css("vertical-align", "-20px");
+          var colorset = ["red", "orange", "green", "blue", "indigo", "purple"];
+          var i = 0;
+          setInterval(() => {
+            $("#important").css({ color: colorset[i] });
+            i++;
+            if (i > 5) i = 0;
+          }, 400);
         };
         var DrawImformaion = function () {
-          $("#section").empty();
           $.ajax({
             url: "http://127.0.0.1:52273/imformation/",
             type: "GET",
@@ -163,38 +216,135 @@
           }).done((data) => {
             if (data != null) {
               for (var i = 0; i < data.length; i++) {
-                $("#section").append("<h1>" + data[i][0] + "</h1>");
+                $(".section_content").append(
+                  "<p class = 'title'>" + data[i][0] + "</p>"
+                );
                 for (var j = 1; j < data[i].length; j++) {
-                  $("#section").append(
-                    "<h1>" +
+                  $(".section_content").append(
+                    "<div class = 'dashbox'><p class = 'content'>" +
                       data[i][j].title +
                       ": " +
                       data[i][j].content +
-                      "</h1>"
+                      "</p></div>"
                   );
                 }
+                $(".section_content").append("<hr color='white'>");
               }
             }
-            console.log(data);
           });
         };
 
         var DrawRecord = function () {
-          $("#section").html("<h1>record</h1>");
+          $.ajax({
+            url: "http://127.0.0.1:52273/record/",
+            type: "GET",
+          }).done((data) => {
+            if (data != null) {
+              for (var i = 0; i < data.length; i++) {
+                $(".section_content").append(
+                  "<p class = 'title'>" + data[i][0] + "</p>"
+                );
+                if (data[i].length == 1) {
+                  $(".section_content").append("<p class = 'content'>없음</p>");
+                }
+                for (var j = 1; j < data[i].length; j++) {
+                  if (typeof data[i][j] == "string") {
+                    $(".section_content").append(
+                      "<p class = 'content'>" + data[i][j] + "</p>"
+                    );
+                  } else {
+                    $(".section_content").append(
+                      "<p class = 'content'>" +
+                        data[i][j].title +
+                        ": " +
+                        data[i][j].content +
+                        "</p>"
+                    );
+                  }
+                }
+                $(".section_content").append("<hr color='white'>");
+              }
+            }
+          });
         };
+        "<div id='section-layout'>" +
+          "<div class='section_content'>" +
+          "<div id='calender-header'></div>" +
+          " <table id='calender-date'></table>" +
+          "<div id='new_date'></div>" +
+          "<button id='btn_add'>일정 추가</button>" +
+          "</br>" +
+          "</br>" +
+          "<div id='memo'></div>" +
+          "</div>" +
+          "</div>";
         var DrawProject = function () {
-          $("#section").html("<h1>project</h1>");
+          $.ajax({
+            url: "http://127.0.0.1:52273/project/",
+            type: "GET",
+          }).done((data) => {
+            if (data != null) {
+              console.log(data);
+              for (var i = 0; i < data.length; i++) {
+                $(".section_content").append(
+                  "<div><p class = 'title'>" +
+                    data[i].title +
+                    "</p><p style='font-weight:700'>관련</p>" +
+                    "<p class = 'content'> " +
+                    data[i].tag +
+                    "</p><p style='font-weight:700'>내용</p><p class = 'content'>" +
+                    data[i].content +
+                    "</p><p style='font-weight:700'>나의 역할</p><p class = 'content'>" +
+                    data[i].myRole +
+                    "</p><hr color='white'>"
+                );
+              }
+            }
+          });
         };
         var DrawGoal = function () {
-          $("#section").html("<h1>이 웹사이트 만들어서 배포하기</h1>");
+          $(".section_content").empty();
+          $.ajax({
+            url: "http://127.0.0.1:52273/goal/",
+            type: "GET",
+          }).done((data) => {
+            if (data != null) {
+              for (var i = 0; i < data.length; i++) {
+                $(".section_content").append(
+                  "<p class = 'title'>" +
+                    data[i].title +
+                    "</p><p class = 'content'>" +
+                    data[i].content +
+                    "</p><hr color='white'>"
+                );
+              }
+            }
+          });
         };
         var DrawPlan = function () {
-          $("#section").html("<h1>plan</h1>");
+          $(".section_content").empty();
+          $.ajax({
+            url: "http://127.0.0.1:52273/plan",
+            type: "GET",
+          }).done((data) => {
+            if (data != null) {
+              for (var i = 0; i < data.length; i++) {
+                $(".section_content").append(
+                  "<p class = 'title'>" +
+                    data[i].title +
+                    "</p>" +
+                    "<p class = 'content'>" +
+                    data[i].content +
+                    "</p><hr color='white'>"
+                );
+              }
+            }
+          });
         };
         var DrawDiary = function () {
           $("#section").html(
             "<div id='section-layout'>" +
-              "<div id='calender'>" +
+              "<div class='section_content'>" +
               "<div id='calender-header'></div>" +
               " <table id='calender-date'></table>" +
               "<div id='new_date'></div>" +
@@ -233,14 +383,14 @@
             }).done((data) => {
               $("#memo").empty();
               if (data.error != null) {
-                $("#memo").append("<p>" + data.error + "</p>");
+                $("#memo").append("<p class = title>" + data.error + "</p>");
               }
 
               for (var i = 0; i < data.length; i++) {
                 $("#memo").append(
-                  "<div class='memobox'><p style='font-weight:bold; margin:0'>" +
+                  "<div class='memobox'><p class='title'>" +
                     data[i].title +
-                    "</p><p style='margin:0'>" +
+                    "</p><p class='content'>" +
                     data[i].content +
                     "</p><button class='modify' value=" +
                     i +
@@ -322,10 +472,12 @@
             $("#calender-header").html(
               "<button class='before' style='color: #a4b9c6' value = '" +
                 date +
-                "'>◀</button> " +
+                "'>◀</button>" +
+                "<span style='font-size:25px'> " +
                 year +
                 "." +
                 month +
+                "  </span>" +
                 " <button class='after' style='color: #a4b9c6' value = '" +
                 date +
                 "'>▶</button>"
@@ -458,10 +610,18 @@
         $(".btn_menu").click(function () {
           var menu = $(this).attr("value");
           $("#section_title").html("<h1>my " + menu + "</h1>");
+          $("#section").empty();
+          $("#section").append(
+            "<div id='section-layout'>" +
+              "<div class='section_content'>" +
+              "</div>" +
+              "</div>"
+          );
           switch (menu) {
             case "home":
               DrawHome();
               break;
+
             case "imformation":
               DrawImformaion();
               break;
@@ -484,17 +644,6 @@
         });
       });
     </script>
-    <!-- jquery를 이용한 css -->
-    <script>
-      $(function () {
-        $("#nav a")
-          .css("width", "120px")
-          .css("height", "25px")
-          .css("line-height", "25px")
-          .css("border-radius", "15px");
-        $("#calender").css("border", "1px solid black");
-      });
-    </script>
   </head>
 
   <body>
@@ -506,6 +655,12 @@
     </div>
     <div id="section_title"><h1>my home</h1></div>
     <div id="section"></div>
-    <div id="footer">bottom</div>
+    <div id="footer">
+      <a
+        href="https://lms.mju.ac.kr/ilos/st/course/report_view_form.acl?RT_SEQ=4051398&SCH_KEY=&SCH_VALUE=&display=1&start=1"
+        style="color: gray"
+        >인터넷 프로그래밍 중간 프로젝트 마감일 6/6</a
+      >
+    </div>
   </body>
 </html>
